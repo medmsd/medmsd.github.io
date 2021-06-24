@@ -305,7 +305,8 @@
             </div>
             <div class="timeline-card timeline-card-success card shadow-sm">
               <div class="card-body">
-                <div class="h5 mb-1">Mathematics Baccalaureate <span class="text-muted h6">from Mohamed ali Sfax School</span></div>
+                <div class="h5 mb-1">Mathematics Baccalaureate <span class="text-muted h6">from Mohamed ali Sfax
+                    School</span></div>
                 <div class="text-muted text-small mb-2">2011 - 2015</div>
               </div>
             </div>
@@ -317,15 +318,19 @@
           <div class="row">
             <div class="col-md-7 d-print-none">
               <div class="my-2">
-                <form action="email.php" method="POST">
+                <form action="mailto:mseddi.mohamed@iit.ens.tn" method="POST">
                   <div class="row">
-                    <div class="col-12">
+                    <div class="col-6">
                       <input class="form-control" type="text" id="subject" name="subject" placeholder="Subject"
+                        required>
+                    </div>
+                    <div class="col-6">
+                      <input class="form-control" type="email" id="email" name="_replyto" placeholder="Your E-mail"
                         required>
                     </div>
                   </div>
                   <div class="form-group my-2">
-                    <textarea class="form-control" style="resize: none;" id="body" name="body" rows="4"
+                    <textarea class="form-control" style="resize: none;" id="message" name="message" rows="4"
                       placeholder="Your Message" required></textarea>
                   </div>
                   <button class="btn btn-primary mt-2" type="submit">Send</button>
