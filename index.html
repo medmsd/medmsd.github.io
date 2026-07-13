@@ -1295,22 +1295,18 @@
       }
 
       function switchPanel(section) {
-        if (!isMobile) {
-          document.querySelectorAll(".terminal-panel").forEach((panel) => {
-            panel.classList.remove("active");
-          });
-        }
+        document.querySelectorAll(".terminal-panel").forEach((panel) => {
+          panel.classList.remove("active");
+        });
 
         const activePanel = document.getElementById(section + "-panel");
         if (activePanel) {
+          activePanel.classList.add("active");
           if (!isMobile) {
-            activePanel.classList.add("active");
             resetPanelAnimations(activePanel);
             triggerPanelAnimations(activePanel);
           } else {
-            // Mobile: smooth scroll to panel
             activePanel.scrollIntoView({ behavior: "smooth" });
-            // On mobile we might just show everything instantly to avoid annoyances
             showPanelInstant(activePanel);
           }
         }
