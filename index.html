@@ -16,6 +16,33 @@
         --accent: #ff7b72;
         --text-main: #f3f7fb;
         --text-muted: #c2ccd6;
+        --focus-ring: 0 0 0 3px rgba(48, 209, 88, 0.6);
+      }
+
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary);
+        color: var(--bg-color);
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        z-index: 200;
+        transition: top 0.3s ease;
+      }
+
+      .skip-link:focus {
+        top: 20px;
+        outline: none;
+        box-shadow: var(--focus-ring);
+      }
+
+      *:focus-visible {
+        outline: 2px solid var(--primary);
+        outline-offset: 2px;
       }
 
       * {
@@ -239,6 +266,7 @@
         position: relative;
         overflow: hidden;
         backdrop-filter: blur(8px);
+        cursor: pointer;
       }
 
       .nav-item::before {
@@ -373,14 +401,16 @@
         border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 10px;
         transition:
-          transform 0.3s ease,
+          transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
           border-color 0.3s ease,
-          background 0.3s ease;
+          background 0.3s ease,
+          box-shadow 0.3s ease;
       }
       .experience-item:hover {
-        transform: translateX(6px);
+        transform: translateX(6px) translateY(-2px);
         border-color: rgba(88, 166, 255, 0.3);
         background: rgba(88, 166, 255, 0.04);
+        box-shadow: 0 8px 32px rgba(88, 166, 255, 0.1);
       }
 
       .job-title {
@@ -499,27 +529,46 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 20px;
+        gap: 24px;
         color: var(--primary);
-        font-size: 20px;
-        letter-spacing: 2px;
-        transition: opacity 0.6s ease;
+        font-size: 18px;
+        letter-spacing: 3px;
+        transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .loading-text {
+        opacity: 0;
+        animation: fadeInUp 0.6s ease forwards;
       }
       .loader-bar {
-        width: 200px;
-        height: 2px;
-        background: rgba(48, 209, 88, 0.2);
+        width: 240px;
+        height: 3px;
+        background: rgba(48, 209, 88, 0.15);
         position: relative;
         overflow: hidden;
+        border-radius: 2px;
+        opacity: 0;
+        animation: fadeInUp 0.6s ease 0.3s forwards;
       }
       .loader-progress {
         position: absolute;
         top: 0;
         left: 0;
         height: 100%;
-        background: var(--primary);
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
         width: 0%;
         animation: loadProgress 1.5s ease-out forwards;
+        border-radius: 2px;
+        box-shadow: 0 0 12px var(--primary-glow);
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .system-info {
@@ -597,13 +646,96 @@
         .scanlines {
           opacity: 0.08;
         }
+        .nav-item {
+          padding: 18px 24px;
+          font-size: 15px;
+          min-height: 56px;
+          display: flex;
+          align-items: center;
+        }
+        .terminal-content {
+          padding: 24px;
+        }
+        .name {
+          font-size: 1.8rem;
+        }
+        .title {
+          font-size: 1rem;
+        }
+        .experience-item {
+          padding: 20px;
+        }
+        .job-title {
+          font-size: 16px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ui-overlay {
+          padding: 12px;
+          gap: 16px;
+        }
+        .left-col {
+          gap: 16px;
+        }
+        .terminal-header {
+          padding: 20px;
+        }
+        .name {
+          font-size: 1.5rem;
+        }
+        .terminal-content {
+          padding: 16px;
+          font-size: 13px;
+        }
+        .nav-item {
+          padding: 16px 20px;
+          font-size: 14px;
+        }
+        .experience-item {
+          padding: 16px;
+          margin-bottom: 20px;
+        }
+        .project {
+          padding-left: 12px;
+        }
+        .tech-tags {
+          gap: 6px;
+        }
+        .skill-tag {
+          padding: 3px 8px;
+          font-size: 11px;
+        }
+        .contact-item {
+          font-size: 14px;
+          flex-wrap: wrap;
+        }
+        .download-btn {
+          padding: 12px 20px;
+          font-size: 13px;
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        .loader-progress {
+          animation: none;
+          width: 100%;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="loading" id="loading">
-      <div>INITIALIZING SYSTEM<span class="blinking-cursor">_</span></div>
-      <div class="loader-bar"><div class="loader-progress"></div></div>
+    <a href="#about-panel" class="skip-link">Skip to main content</a>
+    <div class="loading" id="loading" role="status" aria-label="Loading portfolio">
+      <div class="loading-text">INITIALIZING SYSTEM<span class="blinking-cursor">_</span></div>
+      <div class="loader-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"><div class="loader-progress"></div></div>
     </div>
 
     <div id="canvas-container"></div>
@@ -632,21 +764,21 @@
           </div>
         </div>
 
-        <nav class="navigation">
-          <a href="#" class="nav-item active" data-section="about"
+        <nav class="navigation" role="navigation" aria-label="Main navigation">
+          <a href="#" class="nav-item active" data-section="about" role="button" tabindex="0"
             >./about.sh</a
           >
-          <a href="#" class="nav-item" data-section="experience"
+          <a href="#" class="nav-item" data-section="experience" role="button" tabindex="0"
             >./experience.sh</a
           >
-          <a href="#" class="nav-item" data-section="skills">./skills.sh</a>
-          <a href="#" class="nav-item" data-section="contact">./contact.sh</a>
+          <a href="#" class="nav-item" data-section="skills" role="button" tabindex="0">./skills.sh</a>
+          <a href="#" class="nav-item" data-section="contact" role="button" tabindex="0">./contact.sh</a>
         </nav>
       </div>
 
       <div class="right-col">
         <!-- ABOUT PANEL -->
-        <div class="terminal-box terminal-panel active" id="about-panel">
+        <div class="terminal-box terminal-panel active" id="about-panel" role="region" aria-label="About section">
           <div class="terminal-panel-header">
             <div class="terminal-dots">
               <div class="dot red"></div>
@@ -685,7 +817,7 @@
         </div>
 
         <!-- EXPERIENCE PANEL -->
-        <div class="terminal-box terminal-panel" id="experience-panel">
+        <div class="terminal-box terminal-panel" id="experience-panel" role="region" aria-label="Experience section">
           <div class="terminal-panel-header">
             <div class="terminal-dots">
               <div class="dot red"></div>
@@ -815,7 +947,7 @@
         </div>
 
         <!-- SKILLS PANEL -->
-        <div class="terminal-box terminal-panel" id="skills-panel">
+        <div class="terminal-box terminal-panel" id="skills-panel" role="region" aria-label="Skills section">
           <div class="terminal-panel-header">
             <div class="terminal-dots">
               <div class="dot red"></div>
@@ -941,7 +1073,7 @@
         </div>
 
         <!-- CONTACT PANEL -->
-        <div class="terminal-box terminal-panel" id="contact-panel">
+        <div class="terminal-box terminal-panel" id="contact-panel" role="region" aria-label="Contact section">
           <div class="terminal-panel-header">
             <div class="terminal-dots">
               <div class="dot red"></div>
@@ -1208,6 +1340,7 @@
       }
 
       function animate3D() {
+        if (animationPaused) return;
         requestAnimationFrame(animate3D);
 
         targetX = mouseX * 0.001;
@@ -1275,13 +1408,20 @@
         navItems.forEach((item) => {
           item.addEventListener("click", (e) => {
             e.preventDefault();
-            if (item.classList.contains("active") && !isMobile) return; // Allow clicking again on mobile to scroll
+            if (item.classList.contains("active") && !isMobile) return;
 
             navItems.forEach((nav) => nav.classList.remove("active"));
             item.classList.add("active");
 
             const section = item.getAttribute("data-section");
             switchPanel(section);
+          });
+
+          item.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              item.click();
+            }
           });
         });
 
@@ -1348,6 +1488,16 @@
       }
 
       let currentTypeTimeouts = [];
+      let animationPaused = false;
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          animationPaused = true;
+        } else {
+          animationPaused = false;
+          animate3D();
+        }
+      });
 
       function triggerPanelAnimations(panel) {
         // Clear previous typing timeouts if any
