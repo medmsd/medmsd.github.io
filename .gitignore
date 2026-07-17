@@ -1,3 +1,7 @@
 .idea
 description.md
 docs/
+.agent_context/
+.multica/
+.opencode/
+AGENTS.md
