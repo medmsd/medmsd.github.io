@@ -6,3 +6,5 @@ docs/
 .opencode/
 AGENTS.md
 .kanbots/
+.claude/
+CLAUDE.md
